@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>フロントカウンター</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- ヘッダー -->
+    <header id="header">
+      <h1 id="header-title">フロントカウンター</h1>
+      <div id="header-subtitle"></div>
+    </header>
+
+    <!-- カウンター画面 -->
+    <main id="view-counter" class="view active">
+      <div id="counter-grid"></div>
+      <div id="undo-bar">
+        <button id="btn-undo" disabled>取消</button>
+      </div>
+    </main>
+
+    <!-- タイムライン画面 -->
+    <main id="view-timeline" class="view">
+      <div id="timeline-nav">
+        <button id="btn-prev-day">&lt; 前日</button>
+        <span id="timeline-date"></span>
+        <button id="btn-next-day">翌日 &gt;</button>
+      </div>
+      <ul id="timeline-list"></ul>
+      <div id="timeline-summary">
+        <h3>カテゴリ別件数</h3>
+        <ul id="summary-list"></ul>
+      </div>
+    </main>
+
+    <!-- 設定画面 -->
+    <main id="view-settings" class="view">
+      <section class="settings-section">
+        <h2>カテゴリ管理</h2>
+        <ul id="category-list"></ul>
+        <button id="btn-add-category" class="btn-primary">+ カテゴリ追加</button>
+      </section>
+
+      <!-- カテゴリ編集モーダル -->
+      <div id="category-modal" class="modal hidden">
+        <div class="modal-content">
+          <h3 id="modal-title">カテゴリ追加</h3>
+          <label>
+            名前
+            <input type="text" id="input-cat-name" maxlength="20" placeholder="カテゴリ名">
+          </label>
+          <label>色</label>
+          <div id="color-palette"></div>
+          <div class="modal-actions">
+            <button id="btn-modal-cancel" class="btn-secondary">キャンセル</button>
+            <button id="btn-modal-save" class="btn-primary">保存</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="settings-section">
+        <h2>データ管理</h2>
+        <button id="btn-export-csv" class="btn-secondary">CSVエクスポート</button>
+        <button id="btn-clear-data" class="btn-danger">全データクリア</button>
+      </section>
+    </main>
+
+    <!-- 下部タブバー -->
+    <nav id="tab-bar">
+      <button class="tab active" data-view="counter">
+        <span class="tab-icon">📊</span>
+        <span class="tab-label">カウンター</span>
+      </button>
+      <button class="tab" data-view="timeline">
+        <span class="tab-icon">📋</span>
+        <span class="tab-label">タイムライン</span>
+      </button>
+      <button class="tab" data-view="settings">
+        <span class="tab-icon">⚙️</span>
+        <span class="tab-label">設定</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
