@@ -64,6 +64,15 @@ if ('serviceWorker' in navigator) {
       this.saveCategories(cats);
     },
 
+    swapCategory(index, direction) {
+      const cats = this.getCategories();
+      const target = index + direction;
+      if (target < 0 || target >= cats.length) return;
+      [cats[index], cats[target]] = [cats[target], cats[index]];
+      cats.forEach((c, i) => c.order = i);
+      this.saveCategories(cats);
+    },
+
     getCategoryMap() {
       const map = {};
       for (const c of this.getCategories()) map[c.id] = c;
@@ -355,10 +364,14 @@ if ('serviceWorker' in navigator) {
   function renderSettings() {
     const cats = Store.getCategories();
     dom.categoryList.innerHTML = '';
-    cats.forEach(cat => {
+    cats.forEach((cat, i) => {
       const li = document.createElement('li');
       li.className = 'category-item';
       li.innerHTML = `
+        <div class="category-order-btns">
+          <button class="btn-order-up" ${i === 0 ? 'disabled' : ''}>&#9650;</button>
+          <button class="btn-order-down" ${i === cats.length - 1 ? 'disabled' : ''}>&#9660;</button>
+        </div>
         <span class="category-color-dot" style="background:${cat.color}"></span>
         <span class="category-name">${esc(cat.name)}</span>
         <div class="category-actions">
@@ -366,6 +379,14 @@ if ('serviceWorker' in navigator) {
           <button class="btn-delete-cat">削除</button>
         </div>
       `;
+      li.querySelector('.btn-order-up').addEventListener('click', () => {
+        Store.swapCategory(i, -1);
+        renderSettings();
+      });
+      li.querySelector('.btn-order-down').addEventListener('click', () => {
+        Store.swapCategory(i, 1);
+        renderSettings();
+      });
       li.querySelector('.btn-edit').addEventListener('click', () => openModal(cat));
       li.querySelector('.btn-delete-cat').addEventListener('click', () => {
         if (confirm(`「${cat.name}」を削除しますか？\n関連する記録は「(削除済み)」として残ります。`)) {
